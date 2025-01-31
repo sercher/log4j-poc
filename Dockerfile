@@ -4,6 +4,8 @@ COPY build.properties build.xml /myapp/
 COPY src /myapp/src/
 COPY web /myapp/web/
 
+ENV JAVA_OPTS="-Dcom.sun.jndi.ldap.object.trustSerialData=true"
+
 RUN aptMark="$(apt-mark showmanual)"; \
 	apt-get update; \
 	apt-get install -y ant; \
