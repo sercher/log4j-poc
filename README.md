@@ -95,6 +95,6 @@ fg
 ```
 
 Отчет об уязвимостях docker hub:
-- [sercher78/sercher:log4j-poc-small](https://hub.docker.com/repository/docker/sercher78/sercher/tags/log4j-poc-small/sha256-a421b26712f4ba1989edcd9d7603dab011a6613b485f288d9f563adbf39742d0)
+- [sercher78/sercher:log4j-poc-small](https://hub.docker.com/repository/docker/sercher78/sercher/tags/log4j-poc-small/sha256-cb427a65309db895a21077ddb11de540ae629f4b9ddd0acab6f74a65376a1487)
 
 Обнаруженные уязвимости целиком находятся во внутреннем слое (tomcat:10)
